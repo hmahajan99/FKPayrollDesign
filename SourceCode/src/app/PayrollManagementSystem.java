@@ -1,6 +1,9 @@
 package app;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import app.interfaces.Employee;
@@ -17,7 +20,7 @@ public class PayrollManagementSystem implements PayrollSystem {
   }
 
   @Override
-  public void addEmployee(String name, String type) {
+  public int addEmployee(String name, String type) {
     int max = 10_000_000; 
     int min = 1; 
     int range = max - min + 1;    
@@ -34,13 +37,18 @@ public class PayrollManagementSystem implements PayrollSystem {
     }
 
     employees.put(id,emp);
+    return id;
+  }
 
+  @Override
+  public Employee getEmployee(int employeeId) {
+    if(employees.containsKey(employeeId)) return employees.get(employeeId);
+    return null;
   }
 
   @Override
   public void removeEmployee(int employeeId) {
-    
-
+    if(!employees.containsKey(employeeId)) return;
     // Remove from all unions also
     Employee emp = employees.get(employeeId);
     Set<String> unionNames = emp.basicDetails().getUnions();
@@ -49,7 +57,7 @@ public class PayrollManagementSystem implements PayrollSystem {
       union.removeMember(employeeId);
     }
 
-    if(employees.containsKey(employeeId)) employees.remove(employeeId);
+    employees.remove(employeeId);
   }
 
   @Override
@@ -60,9 +68,26 @@ public class PayrollManagementSystem implements PayrollSystem {
   }
 
   @Override
+  public ArrayList<String> getAllEmployeeIdsWithNames() {
+    ArrayList<String> list = new ArrayList<String>();
+    for(Map.Entry<Integer,Employee> entry: employees.entrySet()){
+      int id = entry.getKey();
+      String name = entry.getValue().basicDetails().getName();
+      list.add(id + " : " + name);
+    }
+    return list;
+  }
+
+  @Override
   public void addUnion(String unionName) {
     Union union = new EmployeeUnion(unionName);
     unions.put(unionName,union);
+  }
+
+  @Override
+  public Union getUnion(String unionName) {
+    if(unions.containsKey(unionName)) return unions.get(unionName);
+    return null;
   }
 
   @Override
@@ -81,71 +106,75 @@ public class PayrollManagementSystem implements PayrollSystem {
 
   @Override
   public Set<String> getAllUnionNames() {
-    // TODO Auto-generated method stub
-    return null;
+    Set<String> copy = new HashSet<String>();
+    copy.addAll(unions.keySet());
+    return copy; // Returning copy so that caller cannot modify 
   }
 
   @Override
-  public void addEmployeeToUnion(Employee emp, Union union) {
-    // TODO Auto-generated method stub
-
+  public void addEmployeeToUnion(int employeeId, String unionName) {
+    Employee emp = employees.get(employeeId);
+    Union union = unions.get(unionName);
+    union.addMember(emp);
   }
 
   @Override
-  public void removeEmployeeFromUnion(Employee emp, Union union) {
-    // TODO Auto-generated method stub
-
+  public void removeEmployeeFromUnion(int employeeId, String unionName) {
+    Union union = unions.get(unionName);
+    union.removeMember(employeeId);
   }
 
   public static void testPayrollManagementSystem() {
-    PayrollManagementSystem p = new PayrollManagementSystem();
-    SalariedEmployee m1 = new SalariedEmployee(1, "Semp1");
-    ContractualEmployee m2 = new ContractualEmployee(2, "Cemp2");
-    ContractualEmployee m3 = new ContractualEmployee(3, "Cemp3");
-    ContractualEmployee m4 = new ContractualEmployee(4, "Cemp4");
-    ContractualEmployee m5 = new ContractualEmployee(5, "Cemp5");
-    SalariedEmployee m6 = new SalariedEmployee(6, "Semp6");
-    SalariedEmployee m7 = new SalariedEmployee(7, "Semp7");
-    p.employees.put(m1.basicDetails().getId(),m1);
-    p.employees.put(m2.basicDetails().getId(),m2);
-    p.employees.put(m3.basicDetails().getId(),m3);
-    p.employees.put(m4.basicDetails().getId(),m4);
-    p.employees.put(m5.basicDetails().getId(),m5);
-    p.employees.put(m6.basicDetails().getId(),m6);
-    p.employees.put(m7.basicDetails().getId(),m7);
+    PayrollManagementSystem pms = new PayrollManagementSystem();
+    int id1 = pms.addEmployee("Aman", "HourlyEmployee");
+    int id2 = pms.addEmployee("Baman", "MonthlyEmployee");
+    int id3 = pms.addEmployee("Batman", "MonthlyEmployee");
+    int id4 = pms.addEmployee("Don", "MonthlyEmployee");
+    int id5 = pms.addEmployee("Pablo", "HourlyEmployee");
+    int id6 = pms.addEmployee("Escobar", "HourlyEmployee");
+    int id7 = pms.addEmployee("Gabbar", "HourlyEmployee");
+    System.out.println("--------------------------");
+    System.out.println("Testing getAllEmployeeIds()");
+    for(Integer employeeId: pms.getAllEmployeeIds()){
+      System.out.println(employeeId);
+    }
+    pms.removeEmployee(id7);
+    System.out.println("Testing getAllEmployeeIdsWithNames()");
+    for(String s: pms.getAllEmployeeIdsWithNames()){
+      System.out.println(s);
+    }
 
-    EmployeeUnion u = new EmployeeUnion("empunion1");
-    u.addMember(m1);
-    u.addMember(m4);
-    u.addMember(m3);
-    u.addMember(m6);
-    // u.removeMember(m3);
-    u.addMember(m7);
-    p.unions.put(u.getUnionName(), u);
+    pms.addUnion("SportsUnion");
+    pms.addUnion("LabourUnion");
+    pms.addUnion("SleepingUnion");
+    pms.addEmployeeToUnion(id1, "SportsUnion");
+    pms.addEmployeeToUnion(id2, "SportsUnion");
+    pms.addEmployeeToUnion(id3, "SportsUnion");
+    pms.addEmployeeToUnion(id3, "LabourUnion");
+    pms.addEmployeeToUnion(id4, "LabourUnion");
+    pms.addEmployeeToUnion(id5, "LabourUnion");
+    pms.addEmployeeToUnion(id1, "SleepingUnion");
+    pms.addEmployeeToUnion(id3, "SleepingUnion");
+    pms.addEmployeeToUnion(id6, "SleepingUnion");
 
-    System.out.println("-----------------");
-    System.out.println("All employees");
-    for(Integer mid: p.employees.keySet()) System.out.println("Member id: " + mid);    
+    pms.removeEmployee(id1);
+    Union sleepingUnion = pms.getUnion("SleepingUnion");
+    Union sportsUnion = pms.getUnion("SportsUnion");
+    System.out.println("Members of SportsUnion");
+    for(Integer employeeId: sportsUnion.getMembers()) System.out.println(employeeId);
+    System.out.println("Members of sleepingUnion");
+    for(Integer employeeId: sleepingUnion.getMembers()) System.out.println(employeeId);
 
-    System.out.println("Members ids of members of empunion1");
-    for(Integer mid: p.unions.get("empunion1").getMembers()) System.out.println("Member id: " + mid);    
-
-    EmployeeUnion u2 = new EmployeeUnion("empunion2");
-    EmployeeUnion u3 = new EmployeeUnion("empunion3");
-    EmployeeUnion u4 = new EmployeeUnion("empunion4");
-    u2.addMember(m1);
-    u3.addMember(m1);
-    u4.addMember(m1);
-    // u3.removeMember(m1);
-    System.out.println("Unions m1(empid=1) is a part of");
-    Set<String> malicous = m1.basicDetails().getUnions();
-    malicous.clear(); // Will not affect m1's unions since I'm returning a copy
-    for(String union: m1.basicDetails().getUnions()) System.out.println(union);    
-    System.out.println("-----------------");
-
+    Employee e3 = pms.getEmployee(id3);
+    System.out.println("Unions of e3");
+    for(String unionName: e3.basicDetails().getUnions()) System.out.println(unionName);
+    pms.removeUnion("LabourUnion");
+    System.out.println("Unions of e3 after deleting LabourUnion");
+    for(String unionName: e3.basicDetails().getUnions()) System.out.println(unionName);
+    pms.removeEmployeeFromUnion(id3, "SportsUnion");
+    System.out.println("Unions of e3 after removing membership from SportsUnion");
+    for(String unionName: e3.basicDetails().getUnions()) System.out.println(unionName);
 
   }
-
-  
   
 }
