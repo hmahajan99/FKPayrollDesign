@@ -1,6 +1,7 @@
 package app;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 import app.interfaces.Employee;
@@ -21,7 +22,9 @@ public class EmployeeUnion implements Union {
   }
 
   public Set<Integer> getMembers() {
-    return members.keySet();
+    Set<Integer> copy = new HashSet<Integer>();
+    copy.addAll(members.keySet());
+    return copy; // Returning copy so that caller cannot modify 
   }
 
   public void addMember(Employee emp) {
@@ -29,10 +32,10 @@ public class EmployeeUnion implements Union {
     members.put(emp.basicDetails().getId(),emp);
   }
 
-  public void removeMember(Employee emp) {
-    int id = emp.basicDetails().getId();
+  public void removeMember(int employeeId) {
+    Employee emp = members.get(employeeId);
     emp.basicDetails().removeUnion(unionName);
-    if(members.containsKey(id)) members.remove(id);
+    if(members.containsKey(employeeId)) members.remove(employeeId);
   }
 
   public void levyCharge(Employee emp, int charge, String message) {
@@ -57,7 +60,7 @@ public class EmployeeUnion implements Union {
     System.out.println("-----------------");
     System.out.println("Members ids of members of EmployeeUnion");
     for(Integer mid: u.getMembers()) System.out.println("Member id: " + mid);
-    u.removeMember(m3);
+    u.removeMember(12);
     System.out.println("Members ids of members of EmployeeUnion removing m3");
     for(Integer mid: u.getMembers()) System.out.println("Member id: " + mid);
     System.out.println("-----------------");

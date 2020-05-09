@@ -7,11 +7,11 @@ public class App {
     }
 
     public static void test() {
-        EmployeeDetails.testEmployeeDetails();
-        ContractualEmployee.testContractualEmployee();
-        SalariedEmployee.testSalariedEmployee();
+        // EmployeeDetails.testEmployeeDetails();
+        // ContractualEmployee.testContractualEmployee();
+        // SalariedEmployee.testSalariedEmployee();
         EmployeeUnion.testEmployeeUnion();
-        Payroll.testPayroll();
+        // PayrollManagementSystem.testPayrollManagementSystem();
     }
 
 }
