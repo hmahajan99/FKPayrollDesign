@@ -1,6 +1,6 @@
 package app;
 
-public interface MonthlyEmployee extends Employee {
+public interface MonthlyEmployee {
   void setMonthlySalary(int salary);  
   int calcSalaryPayment();
 

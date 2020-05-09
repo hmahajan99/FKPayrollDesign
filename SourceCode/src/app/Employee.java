@@ -1,20 +1,35 @@
 package app;
 
-public interface Employee {
+public class Employee implements BasicEmployee {
 
-  int getId();
+  private int id;
+  private String name;
+  private String paymentMethod;
 
-  String getName();
-  void setName(String name);
+  public Employee(int id, String name) {
+    this.id = id; // check unique
+    this.name = name;
+    this.paymentMethod = "DEFAULT";
+  }
 
-  String getPaymentMethod();
-  void setPaymentMethod(String paymentMethod);
+  public int getId() {
+    return id;
+  }
 
+  public String getName() {
+    return name;
+  }
 
-  // TODO: Getters and setters for branch name, role etc
+  public void setName(String name) {
+    this.name = name;
+  }
 
-  // TODO
-  // void addUnion();
-  // void removeUnion();
+  public String getPaymentMethod() {
+    return paymentMethod;
+  }
+
+  public void setPaymentMethod(String paymentMethod) {
+    this.paymentMethod = paymentMethod;
+  }
 
 }

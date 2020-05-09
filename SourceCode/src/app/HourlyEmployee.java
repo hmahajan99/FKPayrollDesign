@@ -1,8 +1,9 @@
 package app;
 
-public interface HourlyEmployee extends Employee {
+public interface HourlyEmployee { 
   void setHourlyRate(int rate);  
-  int calcPayment();
+
+  // int calcPayment();
 
   // void setOvertimeHourlyRate(int afterTime,int times);  // 8,1.5
   // void submitDailyTimeCard(Card card);
