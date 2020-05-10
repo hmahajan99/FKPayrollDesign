@@ -1,11 +1,11 @@
 package app.interfaces;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public interface MonthlyEmployee extends Employee {
   void setMonthlySalary(int salary);  
   void setCommisionRate(int rate);  
-  void submitSalesReciept(Date date,int amount);
+  void submitSalesReciept(LocalDate date,int amount);
 
   @Override
   default String getType() {
