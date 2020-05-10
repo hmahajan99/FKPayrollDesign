@@ -7,27 +7,17 @@ import app.interfaces.HourlyEmployee;
 
 public class ContractualEmployee implements HourlyEmployee {
 
-  private class Card {
-    public LocalDate date;
-    public int numHours;
-
-    public Card(LocalDate date, int numHours) {
-      this.date = date;
-      this.numHours = numHours;
-    }
-  }
-
   private EmployeeDetails emp;
   private int hourlyRate;
   private int overtimeHour;
   private double rateFactor;
-  private LocalDate lastPayment;
+  private LocalDate lastWeeklyPayment;
   private ArrayList<Card> Cards;
 
 
   public ContractualEmployee(int id, String name) {
     emp = new EmployeeDetails(id, name);
-    lastPayment = LocalDate.of(2000, 1, 1);
+    lastWeeklyPayment = LocalDate.of(2000, 1, 1);
     Cards = new ArrayList<Card>();
     hourlyRate = 100; // Default
     setOvertimeHourlyRate(8,1.5);
@@ -51,17 +41,20 @@ public class ContractualEmployee implements HourlyEmployee {
 
   @Override
   public void submitDailyTimeCard(LocalDate date, int numHours) {
-    Cards.add(new Card(date, numHours));
+    int overworkedHours = Math.max(numHours-overtimeHour, 0);
+    int normalHours = Math.min(numHours,8);
+    double amount = normalHours*hourlyRate + overworkedHours*hourlyRate*rateFactor;
+    Cards.add(new Card(date, amount, "log: daily time card"));
   }
 
   @Override
-  public LocalDate getLastPayment() {
-    return lastPayment;
+  public LocalDate getLastWeeklyPayment() {
+    return lastWeeklyPayment;
   }
 
   @Override
-  public void payTill(LocalDate payDate) {
-    this.lastPayment = payDate;
+  public void payWeeklyTill(LocalDate payDate) {
+    this.lastWeeklyPayment = payDate;
   }
 
   @Override
@@ -70,11 +63,8 @@ public class ContractualEmployee implements HourlyEmployee {
     String reciept="Contractual Employee " + basicDetails().getId() + " : " + basicDetails().getName() + "\n---------------------\n";  
     for(int i=Cards.size()-1;i>=0;i--){
       Card card = Cards.get(i);
-      if(card.date.compareTo(lastPayment)>0){
-        int overworkedHours = Math.max(card.numHours-overtimeHour, 0);
-        int normalHours = Math.min(card.numHours,8);
-        double amount = normalHours*hourlyRate + overworkedHours*hourlyRate*rateFactor;
-        String payment = card.date + " : +" + amount;
+      if(card.date.compareTo(lastWeeklyPayment)>0){
+        String payment = card.date + " : +" + card.amount + " " + card.message;
         reciept = reciept + payment + "\n";
       }
     }
@@ -104,7 +94,7 @@ public class ContractualEmployee implements HourlyEmployee {
     ce.submitDailyTimeCard(tomorrow1, 10);
     ce.submitDailyTimeCard(tomorrow2, 1);
     System.out.println(ce.generatePendingPaymentsReciept());
-    ce.payTill(tomorrow);
+    ce.payWeeklyTill(tomorrow);
     System.out.println(ce.generatePendingPaymentsReciept());
   }
 

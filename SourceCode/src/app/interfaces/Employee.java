@@ -7,8 +7,8 @@ import app.EmployeeDetails;
 public interface Employee {
   EmployeeDetails basicDetails();
   String getType(); 
-  LocalDate getLastPayment(); 
-  void payTill(LocalDate payLocalDate);
+  LocalDate getLastWeeklyPayment(); 
+  void payWeeklyTill(LocalDate payDate);
   String generatePendingPaymentsReciept();
-
+  // void addUnionCharge(LocalDate date,int amount,String message);
 }
