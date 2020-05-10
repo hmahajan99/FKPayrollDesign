@@ -77,31 +77,4 @@ public class ContractualEmployee implements HourlyEmployee {
     return reciept + "---------------------\n";
   }
 
-
-  public static void testContractualEmployee() {
-    System.out.println("-----------------------");
-    ContractualEmployee ce = new ContractualEmployee(1, "name");
-    System.out.println(ce.basicDetails().getId());
-    ce.basicDetails().setName("Pablo");
-    System.out.println(ce.basicDetails().getName());
-    System.out.println(ce.basicDetails().getPaymentMethod());
-    System.out.println(ce.getType());
-    System.out.println("-----------------------");
-    
-    LocalDate date = LocalDate.now();  
-    LocalDate yesterday = date.minusDays(1);  
-    LocalDate tomorrow = yesterday.plusDays(2);  
-    LocalDate tomorrow1 = tomorrow.plusDays(1);  
-    LocalDate tomorrow2 = tomorrow.plusDays(2);  
-
-    ce.submitDailyTimeCard(yesterday, 0);
-    ce.submitDailyTimeCard(date, 5);
-    ce.submitDailyTimeCard(tomorrow, 8);
-    ce.submitDailyTimeCard(tomorrow1, 10);
-    ce.submitDailyTimeCard(tomorrow2, 1);
-    System.out.println(ce.generatePendingPaymentsReciept());
-    ce.payWeeklyTill(tomorrow);
-    System.out.println(ce.generatePendingPaymentsReciept());
-  }
-
 }

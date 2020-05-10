@@ -215,63 +215,6 @@ public class PayrollManagementSystem implements PayrollSystem {
     mEmp.submitSalesReciept(date, amount);
   }
 
-  public static void testPayrollManagementSystem() {
-    PayrollManagementSystem pms = new PayrollManagementSystem();
-    int id1 = pms.addEmployee("Aman", "HourlyEmployee");
-    int id2 = pms.addEmployee("Baman", "MonthlyEmployee");
-    int id3 = pms.addEmployee("Batman", "MonthlyEmployee");
-    int id4 = pms.addEmployee("Don", "MonthlyEmployee");
-    int id5 = pms.addEmployee("Pablo", "HourlyEmployee");
-    int id6 = pms.addEmployee("Escobar", "HourlyEmployee");
-    int id7 = pms.addEmployee("Gabbar", "HourlyEmployee");
-    System.out.println("--------------------------");
-    System.out.println("Testing getAllEmployeeIds()");
-    for (Integer employeeId : pms.getAllEmployeeIds()) {
-      System.out.println(employeeId);
-    }
-    pms.removeEmployee(id7);
-    System.out.println("Testing getAllEmployeeIdsWithNames()");
-    for (String s : pms.getAllEmployeeIdsWithNames()) {
-      System.out.println(s);
-    }
-
-    pms.addUnion("SportsUnion");
-    pms.addUnion("LabourUnion");
-    pms.addUnion("SleepingUnion");
-    pms.addEmployeeToUnion(id1, "SportsUnion");
-    pms.addEmployeeToUnion(id2, "SportsUnion");
-    pms.addEmployeeToUnion(id3, "SportsUnion");
-    pms.addEmployeeToUnion(id3, "LabourUnion");
-    pms.addEmployeeToUnion(id4, "LabourUnion");
-    pms.addEmployeeToUnion(id5, "LabourUnion");
-    pms.addEmployeeToUnion(id1, "SleepingUnion");
-    pms.addEmployeeToUnion(id3, "SleepingUnion");
-    pms.addEmployeeToUnion(id6, "SleepingUnion");
-
-    pms.removeEmployee(id1);
-    Union sleepingUnion = pms.getUnion("SleepingUnion");
-    Union sportsUnion = pms.getUnion("SportsUnion");
-    System.out.println("Members of SportsUnion");
-    for (Integer employeeId : sportsUnion.getMembers())
-      System.out.println(employeeId);
-    System.out.println("Members of sleepingUnion");
-    for (Integer employeeId : sleepingUnion.getMembers())
-      System.out.println(employeeId);
-
-    Employee e3 = pms.getEmployee(id3);
-    System.out.println("Unions of e3");
-    for (String unionName : e3.basicDetails().getUnions())
-      System.out.println(unionName);
-    pms.removeUnion("LabourUnion");
-    System.out.println("Unions of e3 after deleting LabourUnion");
-    for (String unionName : e3.basicDetails().getUnions())
-      System.out.println(unionName);
-    pms.removeEmployeeFromUnion(id3, "SportsUnion");
-    System.out.println("Unions of e3 after removing membership from SportsUnion");
-    for (String unionName : e3.basicDetails().getUnions())
-      System.out.println(unionName);
-
-  }
 
 
 

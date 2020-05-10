@@ -63,22 +63,5 @@ public class EmployeeDetails implements BasicDetails {
     unions.remove(unionName);
   }
 
-  public static void testEmployeeDetails() {
-    System.out.println("-----------------------");
-    EmployeeDetails e = new EmployeeDetails(0, "");
-    System.out.println(e.getId());
-    e.setName("Vegeta");
-    System.out.println(e.getName());
-    System.out.println(e.getPaymentMethod());
-    e.addUnion("abc");
-    e.addUnion("def");
-    e.addUnion("xyz");
-    e.removeUnion("def");
-    e.removeUnion("def");
-    e.removeUnion("notExists");
-    System.out.println("Unions e is part of");
-    for(String union: e.getUnions()) System.out.println(union);
-    System.out.println("-----------------------");
-  }
 
 }

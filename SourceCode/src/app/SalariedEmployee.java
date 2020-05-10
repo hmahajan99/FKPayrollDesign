@@ -85,36 +85,4 @@ public class SalariedEmployee implements MonthlyEmployee {
     return reciept + "---------------------\n";
   }
 
-
-  public static void testSalariedEmployee() {
-    System.out.println("-----------------------");
-    SalariedEmployee se = new SalariedEmployee(2, "name");
-    System.out.println(se.basicDetails().getId());
-    se.basicDetails().setName("Escobar");
-    System.out.println(se.basicDetails().getName());
-    System.out.println(se.basicDetails().getPaymentMethod());
-
-    LocalDate date = LocalDate.now();  
-    LocalDate yesterday = date.minusDays(1);  
-    LocalDate tomorrow = yesterday.plusDays(2);  
-    LocalDate tomorrow1 = tomorrow.plusDays(1);  
-    LocalDate tomorrow2 = tomorrow.plusDays(2);  
-
-    se.submitSalesReciept(yesterday, 0);
-    se.submitSalesReciept(date, 5);
-    se.submitSalesReciept(tomorrow, 8);
-    se.submitSalesReciept(tomorrow1, 10);
-    se.submitSalesReciept(tomorrow2, 1);
-    System.out.println(se.generatePendingPaymentsReciept());
-    se.payMonthlyTill(date);
-    se.payWeeklyTill(tomorrow);
-    System.out.println(se.generatePendingPaymentsReciept());
-
-    System.out.println("-----------------------");
-  }
-
-
-  
-
-
 }
