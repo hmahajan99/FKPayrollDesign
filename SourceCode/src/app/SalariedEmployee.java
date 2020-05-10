@@ -44,6 +44,11 @@ public class SalariedEmployee implements MonthlyEmployee {
   }
 
   @Override
+  public void addUnionCharge(LocalDate date, int amount, String message) {
+    Cards.add(new Card(date, amount, message));
+  }
+
+  @Override
   public LocalDate getLastWeeklyPayment() {
     return lastWeeklyPayment;
   }
@@ -72,7 +77,7 @@ public class SalariedEmployee implements MonthlyEmployee {
     for(int i=Cards.size()-1;i>=0;i--){
       Card card = Cards.get(i);
       if(card.date.compareTo(lastWeeklyPayment)>0){
-        String payment = card.date + " : +" + card.amount + " " + card.message;;
+        String payment = card.date + " : " + (card.amount>=0?'+':"") + card.amount + " " + card.message;;
         reciept = reciept + payment + "\n";
       }
     }

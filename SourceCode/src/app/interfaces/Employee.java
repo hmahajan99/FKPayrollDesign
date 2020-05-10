@@ -10,5 +10,5 @@ public interface Employee {
   LocalDate getLastWeeklyPayment(); 
   void payWeeklyTill(LocalDate payDate);
   String generatePendingPaymentsReciept();
-  // void addUnionCharge(LocalDate date,int amount,String message);
+  void addUnionCharge(LocalDate date,int amount,String message);
 }

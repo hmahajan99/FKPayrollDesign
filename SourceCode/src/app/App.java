@@ -9,9 +9,9 @@ public class App {
     public static void test() {
         // Uncomment Module you want to test
         // EmployeeDetails.testEmployeeDetails();
-        ContractualEmployee.testContractualEmployee();
-        SalariedEmployee.testSalariedEmployee();
-        // EmployeeUnion.testEmployeeUnion();
+        // ContractualEmployee.testContractualEmployee();
+        // SalariedEmployee.testSalariedEmployee();
+        EmployeeUnion.testEmployeeUnion();
         // PayrollManagementSystem.testPayrollManagementSystem();
     }
 
