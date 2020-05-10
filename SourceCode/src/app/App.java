@@ -11,8 +11,8 @@ public class App {
         // EmployeeDetails.testEmployeeDetails();
         // ContractualEmployee.testContractualEmployee();
         // SalariedEmployee.testSalariedEmployee();
-        EmployeeUnion.testEmployeeUnion();
-        // PayrollManagementSystem.testPayrollManagementSystem();
+        // EmployeeUnion.testEmployeeUnion();
+        PayrollManagementSystem.testPayrollManagementSystem();
     }
 
 }

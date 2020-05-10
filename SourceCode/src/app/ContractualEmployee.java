@@ -59,6 +59,7 @@ public class ContractualEmployee implements HourlyEmployee {
 
   @Override
   public void payWeeklyTill(LocalDate payDate) {
+    // TODO: Can remove Cards whose date has expired
     this.lastWeeklyPayment = payDate;
   }
 

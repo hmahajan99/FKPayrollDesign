@@ -42,6 +42,7 @@ public class EmployeeUnion implements Union {
 
   @Override
   public void levyCharge(int employeeId, LocalDate date, int charge, String message) {
+    if(!members.containsKey(employeeId)) return;
     Employee emp = members.get(employeeId);
     emp.addUnionCharge(date, -charge, message);
   }
